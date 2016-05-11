@@ -1,0 +1,8 @@
+<launch>
+	<node pkg="seminario" name="emocion_usuario_nodo.cpp" type="emocion_usuario_nodo" respawn="true" output="screen" launch-prefix="xterm -e"/>
+	<node pkg="seminario" name="informacion_personal_nodo.cpp" type="informacion_personal_nodo" respawn="true" output="screen" launch-prefix="xterm -e"/>
+	<node pkg="seminario" name="posicion_usuario_nodo.cpp" type="posicion_usuario_nodo" respawn="true" output="screen" launch-prefix="xterm -e"/>
+	<node pkg="seminario" name="empaquetador_nodo.cpp" type="empaquetador_nodo" respawn="true" output="screen" launch-prefix="xterm -e"/>
+	<node pkg="seminario" name="matematico_nodo.cpp" type="matematico_nodo" respawn="true" output="screen" launch-prefix="xterm -e"/>
+	<node pkg="seminario" name="dialogo_nodo.cpp" type="dialogo_nodo" respawn="true" output="screen" launch-prefix="xterm -e"/>
+</launch>

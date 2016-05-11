@@ -1,0 +1,3 @@
+inf_personal_usuario info
+string emocion
+geometry_msgs/Vector3 posicion
