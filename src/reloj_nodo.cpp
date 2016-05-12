@@ -29,13 +29,13 @@ const string topic_subscriber_reset = "reset_topic";
 // Mensaje actual y maximo de mensajes.
 const int max_mensajes = 5;
 int cont_mensajes = 0;
-int fecha_ultimo_mensaje;
+int tiempo_ultimo_mensaje;
 // Formato para la fecha que se muestra por pantalla.
 const char* fmt = "%a, %d %b %y %T %z";
-
 // Publicadores y subscriptores globales.
 ros::Publisher publicador_alive;
 ros::NodeHandle *nodoGlobal; // Creamos el objeto nodo con el que interactuaremos.
+ros::Timer timer_pantalla; // Objeto timer que mostrara por pantalla 3 veces por segundo
 
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -113,8 +113,10 @@ void timerCallbackAlive(const ros::TimerEvent&)
 
 void funcionCallbackStart(const  std_msgs::String::ConstPtr& msg)
 {
-    ROS_INFO("He recibido un mensaje con el numero: %d", cont_mensajes);
-    ros::Timer timer = nodoGlobal->createTimer(ros::Duration((float)1/3), timerCallbackStart, false);
+    ROS_INFO("He recibido mi primer mensaje <start>");
+    timer_pantalla = nodoGlobal->createTimer(ros::Duration((float)1/3), timerCallbackStart, false);
+    tiempo_ultimo_mensaje = get_time();
+    cout << "Terminamos la funcion Start";
 }
 
 
@@ -124,7 +126,8 @@ void funcionCallbackStart(const  std_msgs::String::ConstPtr& msg)
  */
 void funcionCallbackReset(const std_msgs::String::ConstPtr& msg)
 {
-
+    ROS_INFO("He recibido un mensaje <reset>");
+    tiempo_ultimo_mensaje = get_time();
 }
 
 
@@ -146,15 +149,15 @@ int main (int argc, char ** argv)
     
     // SUBSCRIPTORES
     // Registramos la subscripcion al topic startopic en roscore.
-    ros::Subscriber subscriptor_start = nodo.subscribe(topic_name, 0, funcionCallbackStart);
+    ros::Subscriber subscriptor_start = nodo.subscribe(topic_subscriber_start, 0, funcionCallbackStart);
     // Registramos la subscripcion al topic reset en roscore.
-    ros::Subscriber subscriptor_reset = nodo.subscribe(topic_name, 0, funcionCallbackReset);
+    ros::Subscriber subscriptor_reset = nodo.subscribe(topic_subscriber_reset, 0, funcionCallbackReset);
     
     //PUBLICADOR: registramos el publicador en roscore.
-    publicador_alive = nodo.advertise<std_msgs::Bool>("topic_name", 0);
+    publicador_alive = nodo.advertise<std_msgs::Bool>(topic_name, 0);
 
     // Timer que demuestra cada 60 segundos que este nodo de reloj sigue funcionando.
-    ros::Timer timer = nodo.createTimer(ros::Duration(60), timerCallbackAlive, false);
+    ros::Timer timer_alive = nodo.createTimer(ros::Duration(60), timerCallbackAlive, false);
     ros::spin();
     return 0;
 }

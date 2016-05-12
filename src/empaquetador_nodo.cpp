@@ -13,6 +13,8 @@
 #include "geometry_msgs/Vector3.h"          // Libreria de mensaje.
 #include "std_msgs/String.h"                // Libreria de mensaje.
 
+// NAMESPACE
+using namespace std;
 
 // VARIABLES GLOBALES
 bool personalMsg=false, emocionMsg=false, posicionMsg=false; // Flags para saber que mensajes se han recibido.
@@ -26,7 +28,7 @@ ros::Publisher publicador; // Publicador, se inicializa en el main y se pone com
  * Es llamado por los diferentes callbacks de los subscriptores.
  */
 
-void checkAllMessages(int conejo){
+void checkAllMessages(){
 
     // Si han llegado todos los mensajes (Todos los flags == true), publica y resetea.
     if(personalMsg == true && emocionMsg == true && posicionMsg == true)
